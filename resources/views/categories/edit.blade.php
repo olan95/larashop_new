@@ -9,11 +9,11 @@
 
       @if (session('status'))
         <div class="alert alert-success">
-          {{session('')}}
+          {{session('status')}}
         </div>
       @endif
 
-      <form action="{{route('categories.update', [$category->$id])}}" method="post" enctype="multipart/form-data" class="bg-white shadow-sm p-3">
+      <form action="{{route('categories.update', [$category->id])}}" method="post" enctype="multipart/form-data" class="bg-white shadow-sm p-3">
         @csrf
 
         <input type="hidden" name="_method" value="PUT">

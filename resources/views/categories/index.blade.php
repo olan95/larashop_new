@@ -24,6 +24,9 @@
       <li class="nav-item">
         <a href="{{route('categories.trash')}}" class="nav-link">Trash</a>
       </li>
+      <li class="nav-item">
+        <a href="{{route('categories.create')}}" class="btn btn-primary">Create Category</a>
+      </li>
     </ul>
   </div>
 </div>

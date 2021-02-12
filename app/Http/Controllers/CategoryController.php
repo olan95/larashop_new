@@ -42,7 +42,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $new_category = \App\Models\Category;
+        $name = $request->get('name');
+        
+        $new_category = new \App\Models\Category;
+
         $new_category->name = $name;
         if ($request->file('image')) {
             $image_path = $request->file('image')->store('category_images','public');
@@ -95,7 +98,6 @@ class CategoryController extends Controller
         $category = \App\Models\Category::findOrFail($id);
 
         $category->name = $request->get('name');
-        $category->slug = $request->get('slug');
 
         if ($request->file('image')) {
             if ($category->image && file_exists(storage_path('app/public/'.$category->image))) {
@@ -109,11 +111,11 @@ class CategoryController extends Controller
 
         $category->updated_by = \Auth::user()->id;
 
-        $category->slug = \Str::slug();
+        $category->slug = \Str::slug($request->name);
 
         $category->save();
 
-        return redirect()->route('cetegories.edit', [$id])->with('status','Category successfully updated');
+        return redirect()->route('categories.edit', [$id])->with('status','Category successfully updated');
     }
 
     /**
@@ -124,7 +126,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $catregory = \App\Models\Category::findOrFail($id);
+        $category = \App\Models\Category::findOrFail($id);
         $category->delete();
 
         return redirect()->route('categories.index')->with('status','Category successfully moved to trash');
@@ -150,14 +152,14 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')->with('status', 'Category successfully restored');
     }
 
-    public function deletepermanent($id)
+    public function deletePermanent($id)
     {
         $category = \App\Models\Category::withTrashed()->findOrFail($id);
 
         if (!$category->trashed()) {
             return redirect()->route('categories.index')->with('status','Can not delete permanent active category');
         } else {
-            $category->foreceDelete();
+            $category->forceDelete();
 
             return redirect()->route('categories.index')->with('status','Category permanently deleted');
         }

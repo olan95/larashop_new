@@ -65,7 +65,6 @@
               </td>
               <td>
                 <a href="{{route('categories.restore', [$category->id])}}" class="btn btn-success">Restore</a>
-                <a href="{{route('categories.show', [$category->id])}}" class="btn btn-primary btn-sm">Show</a>
                 <form action="{{route('categories.delete-permanent', [$category->id])}}" method="post" class="d-inline" onsubmit="return confirm('Delete this category permanently?')">
                   @csrf
                   <input type="hidden" name="_method" value="DELETE">

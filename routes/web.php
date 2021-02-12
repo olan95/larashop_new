@@ -32,7 +32,7 @@ Route::resource('users', UserController::class);
 
 Route::get('/categories/{id}/restore', [CategoryController::class,'restore'])->name('categories.restore');
 
-Route::get('/categories/{cetegory}/delete-permanent', [CategoryController::class,'deletePermanent'])->name('categories.delete-permenent');
+Route::get('/categories/{cetegory}/delete-permanent', [CategoryController::class,'deletePermanent'])->name('categories.delete-permanent');
 
 Route::get('/categories/trash', [CategoryController::class,'trash'])->name('categories.trash');
 

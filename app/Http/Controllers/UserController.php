@@ -18,7 +18,7 @@ class UserController extends Controller
 
         if ($filterKeyword) {
             if ($status) {
-                $users = \App\Models\user::where('email','LIKE',"%$filterKeyword%")->where('status',$status)->paginate(10);
+                $users = \App\Models\user::where('email','LIKE',"%$filterKeyword%")->where('status', $status)->paginate(10);
             } else {
                 $users = \App\Models\user::where('email','LIKE',"%$filterKeyword%")->paginate(10);
             }
@@ -60,6 +60,8 @@ class UserController extends Controller
             $file = $request->file('avatar')->store('avatars', 'public');
             $new_user->avatar = $file;
         }
+
+        $new_user->save();
 
         return redirect()->route('users.create')->with('status','User successfully created');
     }
