@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BookController;
 
 
 /*
@@ -32,10 +33,12 @@ Route::resource('users', UserController::class);
 
 Route::get('/categories/{id}/restore', [CategoryController::class,'restore'])->name('categories.restore');
 
-Route::get('/categories/{cetegory}/delete-permanent', [CategoryController::class,'deletePermanent'])->name('categories.delete-permanent');
+Route::delete('/categories/{cetegory}/delete-permanent', [CategoryController::class,'deletePermanent'])->name('categories.delete-permanent');
 
 Route::get('/categories/trash', [CategoryController::class,'trash'])->name('categories.trash');
 
 Route::resource('categories', CategoryController::class);
+
+Route::resource('books', BookController::class);
 
 
