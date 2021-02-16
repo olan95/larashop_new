@@ -31,14 +31,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('users', UserController::class);
 
-Route::get('/categories/{id}/restore', [CategoryController::class,'restore'])->name('categories.restore');
+Route::get('/categories/{id}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
 
-Route::delete('/categories/{cetegory}/delete-permanent', [CategoryController::class,'deletePermanent'])->name('categories.delete-permanent');
+Route::delete('/categories/{cetegory}/delete-permanent', [CategoryController::class, 'deletePermanent'])->name('categories.delete-permanent');
 
-Route::get('/categories/trash', [CategoryController::class,'trash'])->name('categories.trash');
+Route::get('/categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
+
+Route::get('ajax/cetegories/search', [CategoryController::class, 'ajaxSearch']);
 
 Route::resource('categories', CategoryController::class);
 
 Route::resource('books', BookController::class);
-
-

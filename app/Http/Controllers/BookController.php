@@ -13,7 +13,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = App\Models\Book::with('categories')->paginate(10);
+
+        return view('books.index',['books' => $books]);
     }
 
     /**
@@ -45,6 +47,7 @@ class BookController extends Controller
         $book->status = $request->get('save_action');
         $book->slug = \Str::slug($request->get('title'));
         $book->created_by = \Auth::user()->id;
+        $book->categories()->attach($request->get('categories'));
 
         $cover = $request->file('cover');
 
@@ -57,9 +60,9 @@ class BookController extends Controller
         $book->save();
 
         if ($request->get('save_action') == 'PUBLISH') {
-            return redirect()->route('books.create')->with('status','Book successfully saved and published');
+            return redirect()->route('books.create')->with('status', 'Book successfully saved and published');
         } else {
-            return redirect()->route('books.create')->with('status','Book successfully saved as draft');
+            return redirect()->route('books.create')->with('status', 'Book successfully saved as draft');
         }
     }
 

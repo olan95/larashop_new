@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Psr7\Request as Psr7Request;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -18,10 +19,10 @@ class CategoryController extends Controller
         $filterKeyword = $request->get('name');
 
         if ($filterKeyword) {
-            $categories = \App\Models\Category::where("name","LIKE","%$filterKeyword%")->paginate(10);
+            $categories = \App\Models\Category::where("name", "LIKE", "%$filterKeyword%")->paginate(10);
         }
 
-        return view('categories.index', ['categories' =>$categories]);
+        return view('categories.index', ['categories' => $categories]);
     }
 
     /**
@@ -43,21 +44,21 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $name = $request->get('name');
-        
+
         $new_category = new \App\Models\Category;
 
         $new_category->name = $name;
         if ($request->file('image')) {
-            $image_path = $request->file('image')->store('category_images','public');
+            $image_path = $request->file('image')->store('category_images', 'public');
 
             $new_category->image = $image_path;
         }
 
         $new_category->created_by = \Auth::user()->id;
-        $new_category->slug = \Str::slug($name,'-');
+        $new_category->slug = \Str::slug($name, '-');
         $new_category->save();
 
-        return redirect()->route('categories.create')->with('status','Category successfully created');
+        return redirect()->route('categories.create')->with('status', 'Category successfully created');
     }
 
     /**
@@ -100,11 +101,11 @@ class CategoryController extends Controller
         $category->name = $request->get('name');
 
         if ($request->file('image')) {
-            if ($category->image && file_exists(storage_path('app/public/'.$category->image))) {
-                \Storage::delete('public/'.$category->name);
+            if ($category->image && file_exists(storage_path('app/public/' . $category->image))) {
+                \Storage::delete('public/' . $category->name);
             }
 
-            $new_image = $request->file('image')->store('category_images','public');
+            $new_image = $request->file('image')->store('category_images', 'public');
 
             $category->image = $new_image;
         }
@@ -115,7 +116,7 @@ class CategoryController extends Controller
 
         $category->save();
 
-        return redirect()->route('categories.edit', [$id])->with('status','Category successfully updated');
+        return redirect()->route('categories.edit', [$id])->with('status', 'Category successfully updated');
     }
 
     /**
@@ -129,16 +130,24 @@ class CategoryController extends Controller
         $category = \App\Models\Category::findOrFail($id);
         $category->delete();
 
-        return redirect()->route('categories.index')->with('status','Category successfully moved to trash');
+        return redirect()->route('categories.index')->with('status', 'Category successfully moved to trash');
     }
 
+    /**
+     * @return [type]
+     */
     public function trash()
     {
         $deleted_category = \App\Models\Category::onlyTrashed()->paginate(10);
 
-        return view('categories.trash', ['categories' => $deleted_category]);    
+        return view('categories.trash', ['categories' => $deleted_category]);
     }
 
+    /**
+     * @param mixed $id
+     * 
+     * @return [type]
+     */
     public function restore($id)
     {
         $category = \App\Models\Category::withTrashed()->findOrFail($id);
@@ -146,7 +155,7 @@ class CategoryController extends Controller
         if ($category->trashed()) {
             $category->restore();
         } else {
-            return redirect()->route('categories.index')->with('status','Category is not in trash');
+            return redirect()->route('categories.index')->with('status', 'Category is not in trash');
         }
 
         return redirect()->route('categories.index')->with('status', 'Category successfully restored');
@@ -157,11 +166,24 @@ class CategoryController extends Controller
         $category = \App\Models\Category::withTrashed()->findOrFail($id);
 
         if (!$category->trashed()) {
-            return redirect()->route('categories.index')->with('status','Can not delete permanent active category');
+            return redirect()->route('categories.index')->with('status', 'Can not delete permanent active category');
         } else {
             $category->forceDelete();
 
-            return redirect()->route('categories.index')->with('status','Category permanently deleted');
+            return redirect()->route('categories.index')->with('status', 'Category permanently deleted');
         }
+    }
+
+    /**
+     * @param Request $request
+     * 
+     * @return [type]
+     */
+    public function ajaxSearch(Request $request)
+    {
+        $keyword = $request->get('q');
+        $categories = \App\Models\Category::where("name", "LIKE", "%$keyword%")->get();
+
+        return $categories;
     }
 }
