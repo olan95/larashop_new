@@ -7,6 +7,13 @@
 @section('content')
     <div class="row">
       <div class="col-md-12">
+
+        <div class="row mb-3">
+          <div class="col-md-12 text-right">
+            <a href="{{ route('books.create') }}" class="btn btn-primary">Create book</a>
+          </div>
+        </div>
+
         <table class="table table-bordered table-stripped">
           <thead>
             <tr>
@@ -32,18 +39,33 @@
                   <td>{{ $book->author }}</td>
                   <td>
                     @if ($book->status == "DRAFT")
-                        
+                      <span class="badge bg-dark text-white">{{ $book->status }}</span>
                     @else
-                        
+                      <span class="badge badge-success">{{ $book->status }}</span>
                     @endif
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>
+                    <ul class="pl-3">
+                      @foreach ($book->categories as $category)
+                        <li>{{ $category->name }}</li>
+                      @endforeach
+                    </ul>
+                  </td>
+                  <td>{{ $book->stock }}</td>
+                  <td>{{ $book->price }}</td>
+                  <td>
+                    <a href="{{ route('books.edit') }}" class="btn btn-info btn-sm">Edit</a>
+                  </td>
                 </tr>
             @endforeach
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="10">
+                {{ $books->appends(Request::all())->links() }}
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>

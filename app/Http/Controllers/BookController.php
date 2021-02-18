@@ -85,7 +85,9 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = \App\Models\Book::findOrFail($id);
+
+        return view('books.edit', ['books' => $book]);
     }
 
     /**
@@ -97,7 +99,32 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $book = \App\Models\Book::findOrFail($id);
+
+        $book->title = $request->get('title');
+        $book->slug = $request->get('slug');
+        $book->description = $request->get('description');
+        $book->author = $request->get('author');
+        $book->publisher = $request->get('publisher');
+        $book->stock = $request->get('stock');
+        $book->price = $request->get('price');
+        $book->status = $request->get('status');
+
+        $new_cover = $request->get('cover');
+
+        if ($new_cover) {
+            if ($book->cover && file_exists(storage_path('app/public/'.$bok->cover))) {
+                \Storage::delete('public/'.$book->cover);
+            }
+            $new_cover_path = $new_cover->store('book-covers','public');
+            $book->cover = $new_cover_path;
+        }
+
+        $book->updated_by = \Auth::user()->id;
+        $book->save();
+        $book->categories()->sysc($request->get('categories'));
+
+        return redirect()->route('books.edit',[$book->id])->with('status','Book successfully updated');
     }
 
     /**
