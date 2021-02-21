@@ -33,7 +33,7 @@
 
                 <label for="categories">Categories</label>
                 <br>
-                <select name="categories[]" id="categories" class="form-control"></select>
+                <select name="categories[]" id="categories" class="form-control" multiple></select>
                 <br><br>
 
                 <label for="stock">Stock</label>
@@ -73,10 +73,10 @@
     <script>
         $('#categories').select2({
             ajax: {
-                url: 'localhost/public/ajax/categories/search',
-                processResult: function(data){
-                    return{
-                        result: data.map(function(item){return {id: item.id, text: item.name}})
+                url: 'localhost/larashop/public/ajax/categories/search',
+                processResults: function(data){
+                    return {
+                        results : data.map(function(item){return {id: item.id, text: item.name}})
                     }
                 }
             }
