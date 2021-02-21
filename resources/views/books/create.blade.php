@@ -31,6 +31,11 @@
                 <textarea name="description" id="description" class="form-control" placeholder="Give a description about this book"></textarea>
                 <br>
 
+                <label for="categories">Categories</label>
+                <br>
+                <select name="categories[]" id="categories" class="form-control"></select>
+                <br><br>
+
                 <label for="stock">Stock</label>
                 <br>
                 <input type="number" class="form-control" name="stock" id="stock" min=0 value=0>
