@@ -13,6 +13,6 @@ class Category extends Model
 
     public function books()
     {
-        return $this->belongToMany('App\Models\Book');
+        return $this->belongsToMany('App\Models\Book');
     }
 }

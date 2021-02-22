@@ -31,9 +31,8 @@
                 <textarea name="description" id="description" class="form-control" placeholder="Give a description about this book"></textarea>
                 <br>
 
-                <label for="categories">Categories</label>
-                <br>
-                <select name="categories[]" id="categories" class="form-control" multiple></select>
+                <label for="categories">Categories</label><br>
+                <select name="categories[]" multiple id="categories" class="form-control"></select>
                 <br><br>
 
                 <label for="stock">Stock</label>
@@ -73,7 +72,7 @@
     <script>
         $('#categories').select2({
             ajax: {
-                url: 'localhost/larashop/public/ajax/categories/search',
+                url: 'http://localhost/larashop/public/ajax/categories/search',
                 processResults: function(data){
                     return {
                         results : data.map(function(item){return {id: item.id, text: item.name}})
