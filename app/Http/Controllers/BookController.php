@@ -53,7 +53,7 @@ class BookController extends Controller
         $book->stock = $request->get('stock');
         $book->status = $request->get('save_action');
         $book->slug = \Str::slug($request->get('title'));
-        $book->created_by = \Auth::user()->id;
+        $book->created_by = Auth::user()->id;
         $book->categories()->attach($request->get('categories'));
 
         $cover = $request->file('cover');
