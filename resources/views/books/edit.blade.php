@@ -17,7 +17,7 @@
           <input type="hidden" name="_method" value="PUT">
 
           <label for="title">Title</label>
-          <input type="text" class="form-control" name="title" id="title" value="{{ $book->title }}" placeholder="Book title">
+          <input type="text" class="form-control" name="title" id="title" value="{{ old('title') ? old('title') : $book->title }}" placeholder="Book title">
           <br>
 
           <label for="cover">Cover</label>
@@ -31,11 +31,11 @@
           <br><br>
 
           <label for="slug">Slug</label>
-          <input type="text" class="form-control" name="slug" id="slug" value="{{ $book->slug }}" placeholder="Enter-a-slug">
+          <input type="text" class="form-control" name="slug" id="slug" value="{{ old('slug') ? old('slug') : $book->slug }}" placeholder="Enter-a-slug">
           <br>
 
           <label for="description">Description</label>
-          <textarea class="form-control" name="dexcription" id="dexcription" >{{ $book->title }}</textarea>
+          <textarea class="form-control" name="description" id="dexcription" >{{ old('description') ? old('description') : $book->description }}</textarea>
           <br>
 
           <label for="categories">Categories</label>
@@ -43,19 +43,19 @@
           <br><br>
 
           <label for="stock">Stock</label>
-          <input type="text" class="form-control" name="stock" id="stock" value="{{ $book->stock }}" placeholder="Stock">
+          <input type="text" class="form-control" name="stock" id="stock" value="{{ old('stock') ? old('stock') : $book->stock }}" placeholder="Stock">
           <br>
 
           <label for="author">Author</label>
-          <input type="text" class="form-control" name="author" id="author" value="{{ $book->author }}" placeholder="Author">
+          <input type="text" class="form-control" name="author" id="author" value="{{ old('author') ? old('author') : $book->author }}" placeholder="Author">
           <br>
 
           <label for="publisher">Publisher</label>
-          <input type="text" class="form-control" name="publisher" id="publisher" value="{{ $book->publisher }}" placeholder="Publisher">
+          <input type="text" class="form-control" name="publisher" id="publisher" value="{{ old('publisher') ? old('publisher') : $book->publisher }}" placeholder="Publisher">
           <br>
 
           <label for="price">Price</label>
-          <input type="text" class="form-control" name="price" id="price" value="{{ $book->price }}" placeholder="Price">
+          <input type="text" class="form-control" name="price" id="price" value="{{ old('price') ? old('price') : $book->price }}" placeholder="Price">
           <br>
 
           <label for="status">Status</label>
@@ -78,10 +78,10 @@
     <script>
       $('#categories').select2({
         ajax: {
-          url: 'localhost/larashop/public/ajax/categories/search',
-          processResult: function(data){
+          url: 'http://localhost/larashop/public/ajax/categories/search',
+          processResults: function(data){
             return {
-              result: data.map(function(item){return {id: item.id, text:item.name}})
+              results : data.map(function(item){return {id: item.id, text: item.name}})
             }
           }
         }

@@ -16,10 +16,12 @@ class BookController extends Controller
         $status = $request->get('status');
         $keyword = $request->get('keyword') ? $request->get('keyword') : '';
 
+        //$books = \App\Models\Book::with('categories')->paginate(10);
+
         if ($status) {
-            $books = App\Models\Book::with('categories')->where('title','LIKE','%$keyword%')->where('status',strtoupper($status))->paginate(10);
+            $books = \App\Models\Book::with('categories')->where('title',"LIKE","%$keyword%")->where('status',strtoupper($status))->paginate(10);
         } else {
-            $books = \App\Models\Book::with('categories')->where('title','LIKE','%$keyword%')->paginate(10);
+            $books = \App\Models\Book::with('categories')->where('title',"LIKE","%$keyword%")->paginate(10);
         }
 
         return view('books.index',['books' => $books]);
@@ -53,7 +55,7 @@ class BookController extends Controller
         $book->stock = $request->get('stock');
         $book->status = $request->get('save_action');
         $book->slug = \Str::slug($request->get('title'));
-        $book->created_by = Auth::user()->id;
+        $book->created_by = \Auth::user()->id;
         $book->categories()->attach($request->get('categories'));
 
         $cover = $request->file('cover');
@@ -94,7 +96,7 @@ class BookController extends Controller
     {
         $book = \App\Models\Book::findOrFail($id);
 
-        return view('books.edit', ['books' => $book]);
+        return view('books.edit', ['book' => $book]);
     }
 
     /**
@@ -117,10 +119,10 @@ class BookController extends Controller
         $book->price = $request->get('price');
         $book->status = $request->get('status');
 
-        $new_cover = $request->get('cover');
+        $new_cover = $request->file('cover');
 
         if ($new_cover) {
-            if ($book->cover && file_exists(storage_path('app/public/'.$bok->cover))) {
+            if ($book->cover && file_exists(storage_path('app/public/'.$book->cover))) {
                 \Storage::delete('public/'.$book->cover);
             }
             $new_cover_path = $new_cover->store('book-covers','public');
@@ -129,7 +131,7 @@ class BookController extends Controller
 
         $book->updated_by = \Auth::user()->id;
         $book->save();
-        $book->categories()->sysc($request->get('categories'));
+        $book->categories()->sync($request->get('categories'));
 
         return redirect()->route('books.edit',[$book->id])->with('status','Book successfully updated');
     }

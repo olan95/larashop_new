@@ -19,16 +19,16 @@
       <div class="col-md-6">
         <ul class="nav nav-pills card-header-pills">
           <li class="nav-item">
-            <a href="{{ route('books.index') }}" class="nav-link" {{ Request::get('status') == NULL && Request::path() == 'books' ? 'active' : '' }}>All</a>
+            <a href="{{ route('books.index') }}" class="nav-link {{ Request::get('status') == NULL && Request::path() == 'books' ? 'active' : '' }}" >All</a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('books.index',['status' => 'publish']) }}" class="nav-link" {{ Request::get('status') == 'publish' ? 'active' : '' }}>Publish</a>
+            <a href="{{ route('books.index',['status' => 'publish']) }}" class="nav-link {{ Request::get('status') == 'publish' ? 'active' : '' }}" >Publish</a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('books.index',['status' => 'draft']) }}" class="nav-link" {{ Request::get('status') == 'draft' ? 'active' : '' }}>Draft</a>
+            <a href="{{ route('books.index',['status' => 'draft']) }}" class="nav-link {{ Request::get('status') == 'draft' ? 'active' : '' }}" >Draft</a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('books.trash') }}" class="nav-link" {{ Request::get('status') == 'books/trash' ? 'active' : '' }}>Trash</a>
+            <a href="{{ route('books.trash') }}" class="nav-link {{ Request::path() == 'books/trash' ? 'active' : '' }}" >Trash</a>
           </li>
         </ul>
       </div>
@@ -89,11 +89,11 @@
                   <td>{{ $book->stock }}</td>
                   <td>{{ $book->price }}</td>
                   <td>
-                    <a href="{{ route('books.edit') }}" class="btn btn-info btn-sm">Edit</a>
+                    <a href="{{ route('books.edit', [$book->id]) }}" class="btn btn-info btn-sm">Edit</a>
                     <form action="{{ route('books.destroy', [$book->id]) }}" method="POST" onsubmit="return confirm('Move book to trash?')" class="d-line">
                       @csrf
                       <input type="hidden" name="_method" value="DELETE">
-                      <input type="submit" class="btn btn-danger btn-sm">
+                      <input type="submit" class="btn btn-danger btn-sm" value="Trash"
                     </form>
                   </td>
                 </tr>

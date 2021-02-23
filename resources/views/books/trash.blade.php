@@ -19,16 +19,16 @@
       <div class="col-md-6">
         <ul class="nav nav-pills card-header-pills">
           <li class="nav-item">
-            <a href="{{ route('books.index') }}" class="nav-link" {{ Request::get('status') == NULL && Request::path() == 'books' ? 'active' : '' }}>All</a>
+            <a href="{{ route('books.index') }}" class="nav-link {{ Request::get('status') == NULL && Request::path() == 'books' ? 'active' : '' }}" >All</a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('books.index',['status' => 'publish']) }}" class="nav-link" {{ Request::get('status') == 'publish' ? 'active' : '' }}>Publish</a>
+            <a href="{{ route('books.index',['status' => 'publish']) }}" class="nav-link {{ Request::get('status') == 'publish' ? 'active' : '' }}" >Publish</a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('books.index',['status' => 'draft']) }}" class="nav-link" {{ Request::get('status') == 'draft' ? 'active' : '' }}>Draft</a>
+            <a href="{{ route('books.index',['status' => 'draft']) }}" class="nav-link {{ Request::get('status') == 'draft' ? 'active' : '' }}" >Draft</a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('books.trash') }}" class="nav-link" {{ Request::get('status') == 'books/trash' ? 'active' : '' }}>Trash</a>
+            <a href="{{ route('books.trash') }}" class="nav-link {{ Request::path() == 'books/trash' ? 'active' : '' }}" >Trash</a>
           </li>
         </ul>
       </div>
