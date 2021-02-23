@@ -147,7 +147,7 @@ class BookController extends Controller
         $book = \App\Models\Book::findOrFail($id);
         $book->delete();
 
-        return redirect()->route('books.index')->with('status', "Book moved to trash");
+        return redirect()->route('books.index')->with('status', 'Book moved to trash');
     }
 
     /**
@@ -178,5 +178,20 @@ class BookController extends Controller
         } else {
             return redirect()->route('books.trash')->with('status','Book is not in trash');
         }
+    }
+
+    public function deletePermanent($id) 
+    {
+        $book = \App\Models\Book::findOrFail($id);
+
+        if (!$book->trashed()) {
+            return redirect()->route('books.trash')->with('status','Book is not in trash')->with('status_type','alert');
+        } else {
+            $book->categories()->detact();
+            $book->forceDelete();
+
+            return redirect()->route('books.trash')->with('status','Book permanently deleted!');
+        }
+        
     }
 }
