@@ -90,7 +90,11 @@
                   <td>{{ $book->price }}</td>
                   <td>
                     <a href="{{ route('books.edit', [$book->id]) }}" class="btn btn-info btn-sm">Edit</a>
-                    <form action="{{ route('books.destroy', [$book->id]) }}" method="POST" onsubmit="return confirm('Move book to trash?')" class="d-line">
+                    <form 
+                      action="{{ route('books.destroy', [$book->id]) }}" 
+                      method="POST" 
+                      onsubmit="return confirm('Move book to trash?')" 
+                      class="d-inline">
                       @csrf
                       <input type="hidden" name="_method" value="DELETE">
                       <input type="submit" class="btn btn-danger btn-sm" value="Trash"
