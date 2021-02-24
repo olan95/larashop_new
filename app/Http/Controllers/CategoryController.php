@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -43,6 +44,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        \Validator::make($request->all(), [
+            "name" =>"required|min:3|max:20",
+            "image" => "required"
+        ])->validate();
+        
         $name = $request->get('name');
 
         $new_category = new \App\Models\Category;
@@ -97,7 +103,16 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = \App\Models\Category::findOrFail($id);
-
+        
+        \Validator::make($request->all(), [
+            "name" =>"required|min:3|max:20",
+            "image" => "required",
+            "slug" => [
+                "required",
+                Rule::unique("categories")->ignore($category->slug, "slug")
+            ]
+        ])->validate();
+        
         $category->name = $request->get('name');
 
         if ($request->file('image')) {

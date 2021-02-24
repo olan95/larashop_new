@@ -16,4 +16,8 @@ class Book extends Model
     {
         return $this->belongsToMany('App\Models\Category');
     }
+
+    public function orders() {
+        return $this->belongsToMany('App/Models/Order');
+    }
 }

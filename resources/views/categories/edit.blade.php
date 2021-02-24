@@ -20,12 +20,18 @@
 
         <label for="name">Category name</label>
         <br>
-        <input type="text" class="form-control" name="name" value="{{$category->name}}">
+        <input type="text" class="form-control {{ $errors->first('name') ? 'is-invalid' : '' }}" name="name" value="{{ old('name') ? old('name') : $category->name }}">
+        <div class="invalid-feedback">
+          {{ $errors->first('name') }}
+        </div>
         <br><br>
 
         <label for="slug">Category slug</label>
         <br>
-        <input type="text" class="form-control" name="slug" value="{{$category->slug}}">
+        <input type="text" class="form-control {{ $errors->first('slug') ? 'is-invalid' : '' }}" name="slug" value="{{ old('slug') ? old('slug') : $category->slug }}">
+        <div class="invalid-feedback">
+          {{ $errors->first('slug') }}
+        </div>
         <br><br>
 
         @if ($category->image)
@@ -33,8 +39,11 @@
           <img src="{{asset('store/'.$category->image)}}" width="120px">
         @endif  
 
-        <input type="file" class="form-control" name="image">
+        <input type="file" class="form-control {{ $errors->first('image') ? 'is-invalid' : '' }}" name="image">
         <small class="text-muted">kosongkan jika tidak ingin mengubah gambar</small>
+        <div class="invalid-feedback">
+          {{ $errors->first('image') }}
+        </div>
         <br><br>
 
         <input type="submit" class="btn btn-primary" value="Update">

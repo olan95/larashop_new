@@ -17,11 +17,18 @@
       @csrf
 
       <label for="name">Name</label>
-      <input type="text" class="form-control" name="name" placeholder="Full Name" id="name">
+      <input type="text" class="form-control {{ $errors->first('name') ? 'is-invalid' : '' }}" name="name" placeholder="Full Name" id="name">
+      <div class="invalid-feedback">
+        {{ $errors->first('name') }}
+      </div>
       <br>
+      
 
       <label for="username">Username</label>
-      <input type="text" class="form-control" name="username" placeholder="Username" id="username">
+      <input type="text" class="form-control {{ $errors->first('username') ? 'is-invalid' : '' }}" name="username" placeholder="Username" id="username">
+      <div class="invalid-feedback">
+        {{ $errors->first('username') }}
+      </div>
       <br>
 
       <label for="roles">Roles</label>
@@ -34,34 +41,54 @@
 
       <input type="checkbox" name="roles[]" id="CUSTOMER" value="CUSTOMER">
       <label for="CUSTOMER">Customer</label>
+      <div class="invalid-feedback">
+        {{ $errors->first('roles') }}
+      </div>
       <br>
 
       <br>
       <label for="phone">Phone number</label>
       <br>
-      <input type="text" class="form-control" name="phone" placeholder="phone" id="phone">
+      <input type="text" class="form-control {{ $errors->first('phone') ? 'is-invalid' : '' }}" name="phone" placeholder="phone" id="phone">
+      <div class="invalid-feedback">
+        {{ $errors->first('phone') }}
+      </div>
       <br>
 
       <label for="address">Address</label>
-      <textarea name="address" id="address" class="form-control"></textarea>
+      <textarea name="address" id="address" class="form-control {{ $errors->first('address') ? 'is-invalid' : '' }}"></textarea>
+      <div class="invalid-feedback">
+        {{ $errors->first('address') }}
+      </div>
       <br>
 
       <label for="avatar">Avatar image</label>
       <br>
-      <input type="file" name="avatar" id="avatar" class="form-control">
-
-      <hr class="my-3">
+      <input type="file" name="avatar" id="avatar" class="form-control {{ $errors->first('avatar') ? 'is-invalid' : '' }}">
+      <div class="invalid-feedback">
+        {{ $errors->first('avatar') }}
+      </div>
+      <hr class="my-4">
 
       <label for="email">Email</label>
-      <input type="text" class="form-control" name="email" placeholder="user@email.com" id="email">
+      <input type="text" class="form-control {{ $errors->first('email') ? 'is-invalid' : '' }}" name="email" placeholder="user@email.com" id="email">
+      <div class="invalid-feedback">
+        {{ $errors->first('email') }}
+      </div>
       <br>
 
       <label for="password">Password</label>
-      <input type="password" class="form-control" name="password" placeholder="Password" id="password">
+      <input type="password" class="form-control {{ $errors->first('password') ? 'is-invalid' : '' }}" name="password" placeholder="Password" id="password">
+      <div class="invalid-feedback">
+        {{ $errors->first('password') }}
+      </div>
       <br>
 
       <label for="password_confirmation">Password Confirmation</label>
-      <input type="password" class="form-control" name="password_confirmation" placeholder="Password confirmation" id="password_confirmation">
+      <input type="password" class="form-control {{ $errors->first('password_confirmation') ? 'is-invalid' : '' }}" name="password_confirmation" placeholder="Password confirmation" id="password_confirmation">
+      <div class="invalid-feedback">
+        {{ $errors->first('password_confirmation') }}
+      </div>
       <br>
 
       <input type="submit" value="Save" class="btn btn-primary">
